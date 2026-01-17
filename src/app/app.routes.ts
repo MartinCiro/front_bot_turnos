@@ -1,30 +1,11 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent)
-  },
-  {
-    path: 'dashboard',
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.DashboardComponent)
-      },
-      {
-        path: 'posts',
-        loadComponent: () => import('./pages/posts-management/posts-management.component').then(m => m.PostsManagementComponent)
-      },
-      {
-        path: 'users',
-        loadComponent: () => import('./pages/users-management/users-management').then(m => m.UsersManagementComponent)
-      }
-    ]
-  },
-  {
-    path: ':id',
-    loadComponent: () => import('./pages/detail/detail').then(m => m.BlogDetailComponent)
+  { path: '', redirectTo: '/calendario', pathMatch: 'full' },
+  { 
+    path: 'calendario', 
+    loadComponent: () => import('./pages/calendario/calendario.component')
+      .then(m => m.CalendarioComponent)
   },
   /* {
     path: 'dashboard',

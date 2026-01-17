@@ -22,7 +22,15 @@ import {
   UserPlus,
   Edit,
   Trash2,
-  Eye
+  Eye,
+  Calendar, 
+  Clock, 
+  Coffee, 
+  AlertCircle, 
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  User
 } from 'lucide-angular';
 
 // Mapa de íconos para registro global (si usas cadenas en el futuro)
@@ -74,5 +82,13 @@ export {
   UserPlus,
   Edit,
   Trash2,
-  Eye
+  Eye,
+  Calendar, 
+  Clock, 
+  Coffee, 
+  AlertCircle, 
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  User
 };

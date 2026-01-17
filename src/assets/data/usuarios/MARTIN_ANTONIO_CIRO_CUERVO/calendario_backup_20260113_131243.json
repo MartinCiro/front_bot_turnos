@@ -1,0 +1,742 @@
+{
+  "usuario": {
+    "id": "MARTIN_ANTONIO_CIRO_CUERVO",
+    "nombre_completo": "MARTIN ANTONIO CIRO CUERVO"
+  },
+  "periodo": {
+    "mes": "January 2026",
+    "dias_totales": 31,
+    "dias_laborables": 27,
+    "dias_libres": 4,
+    "fecha_generacion": "2026-01-13"
+  },
+  "calendario": [
+    {
+      "dia": 1,
+      "dia_semana": "Jueves",
+      "turno": {
+        "horario": "04:00 - 10:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "08:40 - 09",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": [
+          {
+            "fecha": "2026-01-13T13:03:31Z",
+            "cambio": "Modificados: turno.horario",
+            "detalle": {
+              "antes": {
+                "turno": {
+                  "horario": "02:00 - 08:00",
+                  "tipo": "Dimensionado",
+                  "duracion_horas": 6
+                },
+                "break": {
+                  "horario": "08:40 - 09",
+                  "duracion_minutos": 20
+                },
+                "es_dia_libre": false
+              },
+              "despues": {
+                "turno": {
+                  "horario": "04:00 - 10:00",
+                  "tipo": "Dimensionado",
+                  "duracion_horas": 6
+                },
+                "break": {
+                  "horario": "08:40 - 09",
+                  "duracion_minutos": 20
+                },
+                "es_dia_libre": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "dia": 2,
+      "dia_semana": "Viernes",
+      "turno": {
+        "horario": "04:00 - 10:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "07:30 - 07:50",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 3,
+      "dia_semana": "Sábado",
+      "turno": {
+        "horario": "03:00 - 09:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "07 - 07:20",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": [
+          {
+            "fecha": "2026-01-13T13:07:51Z",
+            "cambio": "Modificados: turno.horario",
+            "detalle": {
+              "antes": {
+                "turno": {
+                  "horario": "11:00 - 17:00",
+                  "tipo": "Dimensionado",
+                  "duracion_horas": 6
+                },
+                "break": {
+                  "horario": "07 - 07:20",
+                  "duracion_minutos": 20
+                },
+                "es_dia_libre": false
+              },
+              "despues": {
+                "turno": {
+                  "horario": "03:00 - 09:00",
+                  "tipo": "Dimensionado",
+                  "duracion_horas": 6
+                },
+                "break": {
+                  "horario": "07 - 07:20",
+                  "duracion_minutos": 20
+                },
+                "es_dia_libre": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "dia": 4,
+      "dia_semana": "Domingo",
+      "turno": {
+        "horario": null,
+        "tipo": "Día Libre",
+        "duracion_horas": 0
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": true,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 5,
+      "dia_semana": "Lunes",
+      "turno": {
+        "horario": "03:00 - 09:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "07:10 - 07:30",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 6,
+      "dia_semana": "Martes",
+      "turno": {
+        "horario": "07:00 - 13:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "11 - 11:20",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 7,
+      "dia_semana": "Miércoles",
+      "turno": {
+        "horario": "05:00 - 11:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "09:20 - 09:40",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 8,
+      "dia_semana": "Jueves",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "05:40 - 06",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 9,
+      "dia_semana": "Viernes",
+      "turno": {
+        "horario": "11:00 - 17:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "08 - 08:20",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 10,
+      "dia_semana": "Sábado",
+      "turno": {
+        "horario": null,
+        "tipo": "Día Libre",
+        "duracion_horas": 0
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": true,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 11,
+      "dia_semana": "Domingo",
+      "turno": {
+        "horario": "11:00 - 17:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "14:30 - 14:50",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 12,
+      "dia_semana": "Lunes",
+      "turno": {
+        "horario": "05:00 - 11:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "09:50 - 10:10",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 13,
+      "dia_semana": "Martes",
+      "turno": {
+        "horario": "03:00 - 09:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "06 - 06:20",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 14,
+      "dia_semana": "Miércoles",
+      "turno": {
+        "horario": "04:00 - 10:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "08:10 - 08:30",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 15,
+      "dia_semana": "Jueves",
+      "turno": {
+        "horario": "04:00 - 10:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "08:10 - 08:30",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 16,
+      "dia_semana": "Viernes",
+      "turno": {
+        "horario": "03:00 - 09:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "05:40 - 06",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 17,
+      "dia_semana": "Sábado",
+      "turno": {
+        "horario": null,
+        "tipo": "Día Libre",
+        "duracion_horas": 0
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": true,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 18,
+      "dia_semana": "Domingo",
+      "turno": {
+        "horario": "05:00 - 11:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "08:10 - 08:30",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 19,
+      "dia_semana": "Lunes",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "04:40 - 05",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 20,
+      "dia_semana": "Martes",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "06:20 - 06:40",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 21,
+      "dia_semana": "Miércoles",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "04:20 - 04:40",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 22,
+      "dia_semana": "Jueves",
+      "turno": {
+        "horario": "04:00 - 10:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "07:20 - 07:40",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 23,
+      "dia_semana": "Viernes",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "06:30 - 06:50",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 24,
+      "dia_semana": "Sábado",
+      "turno": {
+        "horario": null,
+        "tipo": "Día Libre",
+        "duracion_horas": 0
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": true,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 25,
+      "dia_semana": "Domingo",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "04:40 - 05",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 26,
+      "dia_semana": "Lunes",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "04:40 - 05",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 27,
+      "dia_semana": "Martes",
+      "turno": {
+        "horario": "02:00 - 08:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "06 - 06:20",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 28,
+      "dia_semana": "Miércoles",
+      "turno": {
+        "horario": "03:00 - 09:00",
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": "07:50 - 08:10",
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 29,
+      "dia_semana": "Lunes",
+      "turno": {
+        "horario": null,
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 30,
+      "dia_semana": "Martes",
+      "turno": {
+        "horario": null,
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    },
+    {
+      "dia": 31,
+      "dia_semana": "Miércoles",
+      "turno": {
+        "horario": null,
+        "tipo": "Dimensionado",
+        "duracion_horas": 6
+      },
+      "break": {
+        "horario": null,
+        "duracion_minutos": 20
+      },
+      "es_dia_libre": false,
+      "cambios": {
+        "ha_cambiado": false,
+        "detalle_cambios": null,
+        "campos_modificados": [],
+        "ultima_modificacion": null,
+        "historial": []
+      }
+    }
+  ],
+  "estadisticas": {},
+  "metadata": {
+    "version": "1.0",
+    "ultima_actualizacion": "2026-01-13T13:11:36Z",
+    "tiene_cambios_versiones_anteriores": false,
+    "ultima_comparacion": "2026-01-13T13:11:36Z"
+  },
+  "resumen_cambios": {
+    "ultima_ejecucion": "2026-01-13 13:11:36",
+    "total_cambios": 0,
+    "dias_con_cambios": [],
+    "dias_eliminados": [],
+    "se_detectaron_cambios": false
+  }
+}

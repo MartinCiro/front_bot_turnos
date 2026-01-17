@@ -1,8 +1,0 @@
-/* Dashboard footer specific styles */
-footer {
-  transition: all 300ms ease-in-out;
-}
-
-footer:hover {
-  border-color: rgb(190 24 93 / 0.3); /* primary color with opacity */
-}

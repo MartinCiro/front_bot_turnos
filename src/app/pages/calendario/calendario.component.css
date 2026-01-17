@@ -1,0 +1,53 @@
+/* Estilos específicos para el calendario */
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Animación de spin para íconos de carga */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos para días del calendario */
+.min-h-\[140px\] {
+  min-height: 140px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .min-h-\[140px\] {
+    min-height: 120px;
+  }
+  
+  .grid-cols-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+/* Dark mode transitions */
+.dark .border-slate-200 {
+  border-color: #374151;
+}
+
+.dark .bg-slate-50 {
+  background-color: rgba(17, 24, 39, 0.5);
+}
+
+/* Hover effects */
+.hover\:bg-slate-100:hover {
+  transition: background-color 0.2s ease;
+}
+
+.dark .hover\:bg-slate-700:hover {
+  transition: background-color 0.2s ease;
+}
