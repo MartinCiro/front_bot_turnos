@@ -1,4 +1,4 @@
-import { Component, inject, computed, ChangeDetectionStrategy, effect, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, computed, ChangeDetectionStrategy, effect, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { CalendarioService } from '../../core/services/calendario.service';
@@ -83,10 +83,21 @@ export class CalendarioComponent {
         effect(() => {
             const data = this.data();
             if (data) {
-                // Delay aumentado a 200ms para garantizar renderizado completo
+                console.log('🔄 Datos cargados, forzando renderizado completo...');
+
+                // Forzar múltiples ciclos de detección
                 setTimeout(() => {
                     this.cdr.detectChanges();
-                }, 200);
+
+                    setTimeout(() => {
+                        this.cdr.detectChanges();
+                    }, 100);
+
+                    setTimeout(() => {
+                        this.cdr.detectChanges(); // Tercer ciclo para asegurar
+                        console.log('✅ Ciclos de renderizado completados');
+                    }, 200);
+                }, 0);
             }
         });
     }
@@ -128,24 +139,17 @@ export class CalendarioComponent {
         const anio = mes.getFullYear();
         const mesNum = mes.getMonth();
         const primerDia = new Date(anio, mesNum, 1);
-        
+
         // 👇 Usar dias_totales del JSON
         const diasTotales = data.periodo.dias_totales;
         const dias = Array.from({ length: diasTotales }, (_, i) => i + 1);
-        
+
         const inicioVacios = primerDia.getDay() === 0 ? 6 : primerDia.getDay() - 1;
         return { dias, inicioVacios };
     });
 
     calendarioListo = computed(() => {
-        const data = this.data();
-        const dias = this.diasDelMes();
-        const mapa = this.datosPorDia();
-
-        console.log('📅 Datos del calendario listos:', data, dias, mapa);
-        
-        // Verificar que todo esté disponible
-        return data && dias.dias.length > 0 && mapa.size > 0;
+        return this.data() !== null;
     });
 
     // Mapa de datos por día
