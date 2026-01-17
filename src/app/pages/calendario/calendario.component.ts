@@ -16,51 +16,7 @@ import {
     X
 } from '../../shared/icons/lucide-icons';
 
-interface Turno {
-    horario: string | null;
-    tipo: string;
-    duracion_horas: number;
-}
-
-interface Break {
-    horario: string | null;
-    duracion_minutos: number;
-}
-
-interface Cambios {
-    ha_cambiado: boolean;
-    detalle_cambios: string | null;
-    campos_modificados: string[];
-    ultima_modificacion: string | null;
-}
-
-interface DiaCalendario {
-    dia: number;
-    dia_semana: string;
-    turno: Turno;
-    break: Break;
-    es_dia_libre: boolean;
-    cambios: Cambios;
-}
-
-interface CalendarioData {
-    usuario: {
-        id: string;
-        nombre_completo: string;
-    };
-    periodo: {
-        mes: string;
-        dias_totales: number;
-        dias_laborables: number;
-        dias_libres: number;
-        fecha_generacion: string;
-    };
-    calendario: DiaCalendario[];
-    metadata: {
-        version: string;
-        ultima_actualizacion: string;
-    };
-}
+import { DiaCalendario } from '../../core/models/calendario.model';
 
 @Component({
     selector: 'app-calendario',
@@ -83,7 +39,6 @@ export class CalendarioComponent {
         effect(() => {
             const data = this.data();
             if (data) {
-                console.log('🔄 Datos cargados, forzando renderizado completo...');
 
                 // Forzar múltiples ciclos de detección
                 setTimeout(() => {
@@ -94,8 +49,7 @@ export class CalendarioComponent {
                     }, 100);
 
                     setTimeout(() => {
-                        this.cdr.detectChanges(); // Tercer ciclo para asegurar
-                        console.log('✅ Ciclos de renderizado completados');
+                        this.cdr.detectChanges();
                     }, 200);
                 }, 0);
             }
@@ -217,6 +171,39 @@ export class CalendarioComponent {
     refrescar(): void {
         this.calendarioService.cargarCalendario();
     }
+
+    getArrayVaciosActual(): number[] {
+        const cal = this.calendarioCompleto();
+        if (!cal) return [];
+        return Array.from({ length: cal.inicioVacios }, (_, i) => i);
+    }
+
+    calendarioCompleto = computed(() => {
+        const data = this.data();
+        if (!data) return null;
+
+        // Calcular días del mes
+        const mes = new Date(data.periodo.mes);
+        const anio = mes.getFullYear();
+        const mesNum = mes.getMonth();
+        const primerDia = new Date(anio, mesNum, 1);
+        const diasTotales = data.periodo.dias_totales;
+        const dias = Array.from({ length: diasTotales }, (_, i) => i + 1);
+        const inicioVacios = primerDia.getDay() === 0 ? 6 : primerDia.getDay() - 1;
+
+        // Crear mapa de datos por día
+        const mapaDatos = new Map<number, DiaCalendario>();
+        for (const dia of data.calendario) {
+            mapaDatos.set(dia.dia, dia);
+        }
+
+        return {
+            data,
+            dias,
+            inicioVacios,
+            mapaDatos
+        };
+    });
 
     exportar(): void {
         const datos = this.calendarioService.data();

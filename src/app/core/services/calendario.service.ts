@@ -1,4 +1,3 @@
-// src/app/core/services/calendario.service.ts
 import { Injectable, signal } from '@angular/core';
 import * as calendarioData from '../../../assets/data/usuarios/MARTIN_ANTONIO_CIRO_CUERVO/calendario.json';
 import { CalendarioData } from '../models/calendario.model';

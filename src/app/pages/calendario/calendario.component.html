@@ -27,7 +27,7 @@
   }
 
   <!-- Calendar Content -->
-  @if (calendarioListo() && !loading()) {
+  @if (calendarioCompleto() && !loading()) {
     <div class="space-y-8">
       
       <!-- Header -->
@@ -36,7 +36,7 @@
           <div>
             <h1 class="text-3xl md:text-4xl font-bold mb-2">Calendario de Turnos</h1>
             <p class="text-slate-600 dark:text-slate-400">
-              {{ data()!.usuario.nombre_completo }} • {{ data()!.periodo.mes }}
+              {{ calendarioCompleto()!.data.usuario.nombre_completo }} • {{ calendarioCompleto()!.data.periodo.mes }}
             </p>
           </div>
           
@@ -59,7 +59,8 @@
           </div>
           
           <div class="flex gap-2">
-            <button disabled class="p-2 text-slate-400 cursor-not-allowed">
+            <button disabled
+                    class="p-2 text-slate-400 cursor-not-allowed">
               <i-lucide [name]="icons.ChevronLeft" class="w-5 h-5"></i-lucide>
             </button>
             
@@ -68,7 +69,8 @@
               Hoy
             </button>
             
-            <button disabled class="p-2 text-slate-400 cursor-not-allowed">
+            <button disabled
+                    class="p-2 text-slate-400 cursor-not-allowed">
               <i-lucide [name]="icons.ChevronRight" class="w-5 h-5"></i-lucide>
             </button>
           </div>
@@ -78,10 +80,10 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg">
             <div class="flex items-center gap-3">
-              <i-lucide [name]="icons.Clock" class="w-5 h-5 text-blue-600"></i-lucide>
+              <!-- <i-lucide [name]="icons.Clock" class="w-5 h-5 text-blue-600"></i-lucide> -->
               <div>
                 <p class="text-sm text-slate-600 dark:text-slate-400">Días Laborables</p>
-                <p class="text-2xl font-bold">{{ data()!.periodo.dias_laborables }}</p>
+                <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_laborables }}</p>
               </div>
             </div>
           </div>
@@ -91,7 +93,7 @@
               <i-lucide [name]="icons.Coffee" class="w-5 h-5 text-green-600"></i-lucide>
               <div>
                 <p class="text-sm text-slate-600 dark:text-slate-400">Días Libres</p>
-                <p class="text-2xl font-bold">{{ data()!.periodo.dias_libres }}</p>
+                <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_libres }}</p>
               </div>
             </div>
           </div>
@@ -101,7 +103,7 @@
               <i-lucide [name]="icons.User" class="w-5 h-5 text-purple-600"></i-lucide>
               <div>
                 <p class="text-sm text-slate-600 dark:text-slate-400">Total Días</p>
-                <p class="text-2xl font-bold">{{ data()!.periodo.dias_totales }}</p>
+                <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_totales }}</p>
               </div>
             </div>
           </div>
@@ -110,6 +112,7 @@
       
       <!-- Calendar Grid -->
       <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <!-- Week Days Header -->
         <div class="grid grid-cols-7 border-b border-slate-200 dark:border-slate-700">
           @for (dia of diasSemana; track dia) {
             <div class="p-4 text-center font-semibold text-slate-600 dark:text-slate-400">
@@ -118,14 +121,20 @@
           }
         </div>
         
+        <!-- Calendar Days -->
         <div class="grid grid-cols-7">
-          @for (i of getArrayVacios(); track i) {
+          <!-- Empty days at start -->
+          @for (i of getArrayVaciosActual(); track i) {
             <div class="min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50"></div>
           }
           
-          @for (dia of diasDelMes().dias; track dia) {
-            @let diaData = datosPorDia().get(dia);
-            <div [class]="getClaseDia(diaData, dia)" class="border border-slate-100 dark:border-slate-800">
+          <!-- Actual days -->
+          @for (dia of calendarioCompleto()!.dias; track dia) {
+            @let diaData = calendarioCompleto()!.mapaDatos.get(dia);
+            <div [class]="getClaseDia(diaData, dia)" 
+                 class="border border-slate-100 dark:border-slate-800">
+              
+              <!-- Day Number -->
               <div class="flex justify-between items-start mb-2">
                 <span [class]="{
                   'text-blue-600 font-bold': esDiaHoy(dia),
@@ -140,19 +149,22 @@
                 }
               </div>
               
+              <!-- Day Content -->
               @if (diaData) {
                 <div class="flex-1">
+                  <!-- Day of Week -->
                   <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
                     {{ diaData.dia_semana }}
                   </p>
                   
+                  <!-- Shift Info -->
                   @if (!diaData.es_dia_libre && diaData.turno.horario) {
                     <div [class]="getClaseTurno(diaData)" class="p-2 rounded-r space-y-1">
                       <div class="flex items-center justify-between">
                         <span class="text-xs font-bold uppercase">
                           {{ formatearHorario(diaData.turno.horario) }}
                         </span>
-                        <i-lucide [name]="getIconoDia(diaData)" class="w-3 h-3"></i-lucide>
+                        <!-- <i-lucide [name]="getIconoDia(diaData)" class="w-3 h-3"></i-lucide> -->
                       </div>
                       
                       @if (diaData.break.horario) {
@@ -169,6 +181,7 @@
                     </div>
                   }
                   
+                  <!-- Free Day -->
                   @if (diaData.es_dia_libre) {
                     <div class="flex flex-col items-center justify-center h-full p-4">
                       <i-lucide [name]="icons.Coffee" class="w-6 h-6 text-blue-500 mb-2"></i-lucide>
@@ -222,8 +235,8 @@
       
       <!-- Footer -->
       <div class="text-center text-slate-600 dark:text-slate-400 text-sm py-8">
-        <p>Última actualización: {{ data()!.metadata.ultima_actualizacion | date:'medium' }}</p>
-        <p class="mt-1">Generado el: {{ data()!.periodo.fecha_generacion | date:'mediumDate' }}</p>
+        <p>Última actualización: {{ calendarioCompleto()!.data.metadata.ultima_actualizacion | date:'medium' }}</p>
+        <p class="mt-1">Generado el: {{ calendarioCompleto()!.data.periodo.fecha_generacion | date:'mediumDate' }}</p>
       </div>
     </div>
   }
