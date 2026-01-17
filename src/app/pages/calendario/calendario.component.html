@@ -36,7 +36,7 @@
           <div>
             <h1 class="text-3xl md:text-4xl font-bold mb-2">Calendario de Turnos</h1>
             <p class="text-slate-600 dark:text-slate-400">
-              {{ calendarioCompleto()!.data.usuario.nombre_completo }} • {{ calendarioCompleto()!.data.periodo.mes }}
+              {{ calendarioCompleto()!.data.usuario.nombre_completo }}
             </p>
           </div>
           
@@ -109,6 +109,31 @@
           </div>
         </div>
       </div>
+
+      <!-- Filtros -->
+<div class="flex gap-2 mb-4">
+  <button 
+    (click)="filtroActual.set('hoy')" 
+    [class.bg-blue-600]="filtroActual() === 'hoy'"
+    [class.bg-slate-200]="filtroActual() !== 'hoy'"
+    class="px-3 py-1 rounded text-sm font-medium text-white dark:text-slate-900">
+    Hoy
+  </button>
+  <button 
+    (click)="filtroActual.set('semana')" 
+    [class.bg-blue-600]="filtroActual() === 'semana'"
+    [class.bg-slate-200]="filtroActual() !== 'semana'"
+    class="px-3 py-1 rounded text-sm font-medium text-white dark:text-slate-900">
+    Semana
+  </button>
+  <button 
+    (click)="filtroActual.set('mes')" 
+    [class.bg-blue-600]="filtroActual() === 'mes'"
+    [class.bg-slate-200]="filtroActual() !== 'mes'"
+    class="px-3 py-1 rounded text-sm font-medium text-white dark:text-slate-900">
+    Mes
+  </button>
+</div>
       
       <!-- Calendar Grid -->
       <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -129,7 +154,8 @@
           }
           
           <!-- Actual days -->
-          @for (dia of calendarioCompleto()!.dias; track dia) {
+          @for (dia of diasFiltrados().dias; track dia) {
+            @if (dia !== null) {
             @let diaData = calendarioCompleto()!.mapaDatos.get(dia);
             <div [class]="getClaseDia(diaData, dia)" 
                  class="border border-slate-100 dark:border-slate-800">
@@ -195,6 +221,9 @@
                 </div>
               }
             </div>
+            }  @else {
+              <div class="min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50"></div>
+            }
           }
         </div>
       </div>

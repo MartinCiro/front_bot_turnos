@@ -1,4 +1,4 @@
-import { Component, inject, computed, ChangeDetectionStrategy, effect, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, inject, computed, ChangeDetectionStrategy, effect, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { CalendarioService } from '../../core/services/calendario.service';
@@ -34,6 +34,7 @@ export class CalendarioComponent {
     data = this.calendarioService.data;
     loading = this.calendarioService.loading;
     error = this.calendarioService.error;
+    filtroActual = signal<'hoy' | 'semana' | 'mes'>('mes');
 
     constructor() {
         effect(() => {
@@ -102,6 +103,67 @@ export class CalendarioComponent {
         return { dias, inicioVacios };
     });
 
+    // En CalendarioComponent
+    diasFiltrados = computed(() => {
+  const cal = this.calendarioCompleto();
+  if (!cal) return { dias: [], inicioVacios: 0 };
+
+  const hoy = new Date();
+  const diaHoy = hoy.getDate();
+  const mesActual = hoy.getMonth();
+  const anioActual = hoy.getFullYear();
+
+  switch (this.filtroActual()) {
+    case 'hoy':
+      // Para "Hoy", creamos un array de 31 posiciones (como el mes)
+      // pero solo el día actual tiene valor, el resto son null
+      const diasHoy = Array(cal.data.periodo.dias_totales).fill(null);
+      diasHoy[diaHoy - 1] = diaHoy; // Índice 0 = día 1
+      
+      return { dias: diasHoy, inicioVacios: cal.inicioVacios };
+      
+    case 'semana':
+      // Calcular el lunes de la semana actual
+      const fechaHoy = new Date(anioActual, mesActual, diaHoy);
+      const diaSemanaHoy = fechaHoy.getDay();
+      const offset = diaSemanaHoy === 0 ? -6 : 1 - diaSemanaHoy;
+      const lunes = new Date(fechaHoy);
+      lunes.setDate(fechaHoy.getDate() + offset);
+      
+      // Crear array del mes completo, pero solo marcar los días de la semana
+      const diasSemana = Array(cal.data.periodo.dias_totales).fill(null);
+      
+      for (let i = 0; i < 7; i++) {
+        const fechaDia = new Date(lunes);
+        fechaDia.setDate(lunes.getDate() + i);
+        
+        // Solo incluir si está en el mismo mes
+        if (fechaDia.getMonth() === mesActual) {
+          const dia = fechaDia.getDate();
+          if (dia >= 1 && dia <= cal.data.periodo.dias_totales) {
+            diasSemana[dia - 1] = dia;
+          }
+        }
+      }
+      
+      return { dias: diasSemana, inicioVacios: cal.inicioVacios };
+      
+    case 'mes':
+    default:
+      // Convertir array de números a array indexado
+      const diasMes = Array(cal.data.periodo.dias_totales).fill(null);
+      for (const dia of cal.dias) {
+        diasMes[dia - 1] = dia;
+      }
+      return { dias: diasMes, inicioVacios: cal.inicioVacios };
+  }
+});
+
+    getArrayVaciosFiltrados(): number[] {
+  const diasFiltrados = this.diasFiltrados();
+  return Array.from({ length: diasFiltrados.inicioVacios }, (_, i) => i);
+}
+
     calendarioListo = computed(() => {
         return this.data() !== null;
     });
@@ -113,10 +175,7 @@ export class CalendarioComponent {
     });
 
     hoy(): void {
-        const hoy = new Date();
-        if (hoy.getFullYear() === 2026 && hoy.getMonth() === 0) {
-            console.log('Ya estás en el mes actual del calendario.');
-        }
+        this.filtroActual.set('hoy');
     }
 
     getDiaHoy(): number {
