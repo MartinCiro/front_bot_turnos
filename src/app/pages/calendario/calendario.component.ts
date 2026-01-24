@@ -18,18 +18,6 @@ import {
 
 import { DiaCalendario, CalendarioData } from '../../core/models/calendario.model';
 
-interface FiltroCalendario {
-    tipo: 'hoy' | 'semana' | 'mes';
-    nombre: string;
-}
-
-interface CalendarioCompleto {
-    data: CalendarioData;
-    dias: number[];
-    inicioVacios: number;
-    mapaDatos: Map<number, DiaCalendario>;
-}
-
 @Component({
     selector: 'app-calendario',
     standalone: true,
@@ -45,7 +33,10 @@ export class CalendarioComponent {
     data = this.calendarioService.data;
     loading = this.calendarioService.loading;
     error = this.calendarioService.error;
-    filtroActual = signal<'hoy' | 'semana' | 'mes'>('mes');
+    
+    // Opciones de vista en orden cíclico
+    private vistas: ('hoy' | 'semana' | 'mes')[] = ['hoy', 'semana', 'mes'];
+    vistaActual = signal<'hoy' | 'semana' | 'mes'>('mes');
 
     // Iconos
     icons = {
@@ -127,7 +118,7 @@ export class CalendarioComponent {
         const mesActualCal = hoy.getMonth();
         const anioActual = hoy.getFullYear();
 
-        switch (this.filtroActual()) {
+        switch (this.vistaActual()) {
             case 'hoy':
                 return this.filtrarHoy(cal, diaHoy);
             case 'semana':
@@ -138,12 +129,8 @@ export class CalendarioComponent {
         }
     });
 
-    calendarioListo = computed(() => {
-        return this.data() !== null;
-    });
-
     // Métodos privados de filtrado
-    private filtrarHoy(cal: CalendarioCompleto, diaHoy: number) {
+    private filtrarHoy(cal: any, diaHoy: number) {
         const dias = Array(cal.data.periodo.dias_totales).fill(null);
         if (diaHoy >= 1 && diaHoy <= cal.data.periodo.dias_totales) {
             dias[diaHoy - 1] = diaHoy;
@@ -151,23 +138,19 @@ export class CalendarioComponent {
         return { dias, inicioVacios: cal.inicioVacios };
     }
 
-    private filtrarSemana(cal: CalendarioCompleto, diaHoy: number, mes: number, anio: number) {
+    private filtrarSemana(cal: any, diaHoy: number, mes: number, anio: number) {
         const dias = Array(cal.data.periodo.dias_totales).fill(null);
         const fechaHoy = new Date(anio, mes, diaHoy);
         const diaSemanaHoy = fechaHoy.getDay();
-        const offset = diaSemanaHoy === 0 ? -6 : 1 - diaSemanaHoy; // Lunes como inicio de semana
+        const offset = diaSemanaHoy === 0 ? -6 : 1 - diaSemanaHoy;
         const lunes = new Date(fechaHoy);
         lunes.setDate(fechaHoy.getDate() + offset);
-        
-        // Asegurarnos de que estamos en el mes correcto del calendario
-        const mesCalendario = new Date(cal.data.periodo.mes).getMonth();
         
         for (let i = 0; i < 7; i++) {
             const fechaDia = new Date(lunes);
             fechaDia.setDate(lunes.getDate() + i);
             
-            // Solo incluir si está en el mismo mes que el calendario
-            if (fechaDia.getMonth() === mesCalendario) {
+            if (fechaDia.getMonth() === mes) {
                 const dia = fechaDia.getDate();
                 if (dia >= 1 && dia <= cal.data.periodo.dias_totales) {
                     dias[dia - 1] = dia;
@@ -178,7 +161,7 @@ export class CalendarioComponent {
         return { dias, inicioVacios: cal.inicioVacios };
     }
 
-    private filtrarMes(cal: CalendarioCompleto) {
+    private filtrarMes(cal: any) {
         const dias = Array(cal.data.periodo.dias_totales).fill(null);
         for (const dia of cal.dias) {
             dias[dia - 1] = dia;
@@ -192,20 +175,42 @@ export class CalendarioComponent {
     }
 
     // Métodos públicos
-    getArrayVaciosActual(): number[] {
-        const cal = this.calendarioCompleto();
-        return cal ? this.crearArrayVacios(cal.inicioVacios) : [];
-    }
-
     getArrayVaciosFiltrados(): number[] {
         const diasFiltrados = this.diasFiltrados();
         return this.crearArrayVacios(diasFiltrados.inicioVacios);
     }
 
-    // Método para activar el filtro "hoy"
-    irAHoy(): void {
-        this.filtroActual.set('hoy');
-        this.fechaActual.set(new Date());
+    // Navegación entre vistas con flechas
+    retrocederVista(): void {
+        const indiceActual = this.vistas.indexOf(this.vistaActual());
+        const nuevoIndice = (indiceActual - 1 + this.vistas.length) % this.vistas.length;
+        this.vistaActual.set(this.vistas[nuevoIndice]);
+        
+        // Si cambiamos a "hoy", actualizar la fecha
+        if (this.vistas[nuevoIndice] === 'hoy') {
+            this.fechaActual.set(new Date());
+        }
+    }
+
+    avanzarVista(): void {
+        const indiceActual = this.vistas.indexOf(this.vistaActual());
+        const nuevoIndice = (indiceActual + 1) % this.vistas.length;
+        this.vistaActual.set(this.vistas[nuevoIndice]);
+        
+        // Si cambiamos a "hoy", actualizar la fecha
+        if (this.vistas[nuevoIndice] === 'hoy') {
+            this.fechaActual.set(new Date());
+        }
+    }
+
+    // Para obtener el nombre legible de la vista
+    getNombreVistaActual(): string {
+        const nombres = {
+            'hoy': 'Hoy',
+            'semana': 'Semana',
+            'mes': 'Mes'
+        };
+        return nombres[this.vistaActual()];
     }
 
     getDiaHoy(): number {
@@ -213,29 +218,25 @@ export class CalendarioComponent {
     }
 
     esDiaHoy(dia: number): boolean {
-        // Solo considerar el mismo día si también es el mismo mes/año
-        const hoy = this.fechaActual();
-        const mesCalendario = this.mesActual();
-        
-        return dia === hoy.getDate() && 
-               hoy.getMonth() === mesCalendario.getMonth() && 
-               hoy.getFullYear() === mesCalendario.getFullYear();
+        return dia === this.getDiaHoy();
     }
 
     getClaseDia(dia: DiaCalendario | undefined, diaNum: number): string {
-        const base = 'min-h-[140px] p-2 flex flex-col';
-        
         if (!dia) {
-            if (this.diasFiltrados().dias[diaNum - 1] === null) {
-                return `${base} border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50`;
-            }
-            return `${base} border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800`;
+            return 'min-h-[120px] p-2 flex flex-col bg-white dark:bg-slate-800';
         }
-        
-        if (dia.es_dia_libre) return `${base} border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50`;
-        if (dia.cambios.ha_cambiado) return `${base} border border-slate-100 dark:border-slate-800 bg-rose-50 dark:bg-rose-900/20`;
-        
-        return `${base} border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700`;
+
+        const base = 'min-h-[120px] p-2 flex flex-col';
+
+        if (dia.es_dia_libre) {
+            return `${base} bg-slate-50 dark:bg-slate-900/50`;
+        }
+
+        if (dia.cambios.ha_cambiado) {
+            return `${base} bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800`;
+        }
+
+        return `${base} bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700`;
     }
 
     getClaseTurno(dia: DiaCalendario): string {
@@ -252,18 +253,13 @@ export class CalendarioComponent {
 
     formatearHorario(horario: string | null): string {
         if (!horario) return 'Sin horario';
-        return horario;
+        return horario.replace(' - ', ' - ');
     }
 
-    /* getIconoDia(dia: DiaCalendario): string {
-        if (dia.es_dia_libre) return 'Coffee';
-        if (dia.cambios.ha_cambiado) return 'AlertCircle';
-        return 'CheckCircle';
-    } */
+    
 
     refrescar(): void {
         this.calendarioService.cargarCalendario();
-        this.fechaActual.set(new Date());
     }
 
     exportar(): void {
@@ -279,7 +275,6 @@ export class CalendarioComponent {
         window.URL.revokeObjectURL(url);
     }
 
-    // Para compatibilidad con template original
     getArrayVacios(): number[] {
         const inicioVacios = this.diasFiltrados().inicioVacios;
         return this.crearArrayVacios(inicioVacios);
