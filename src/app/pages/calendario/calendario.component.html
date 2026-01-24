@@ -20,7 +20,8 @@
           <p class="text-red-700 dark:text-red-400">{{ error() }}</p>
         </div>
       </div>
-      <button (click)="refrescar()" class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">
+      <button (click)="refrescar()" 
+              class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
         Reintentar
       </button>
     </div>
@@ -41,8 +42,13 @@
           </div>
           
           <div class="flex gap-2">
+            <button (click)="refrescar()" 
+                    class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 transition-colors">
+              <i-lucide [name]="icons.RefreshCw" class="w-4 h-4"></i-lucide>
+              Actualizar
+            </button>
             <button (click)="exportar()" 
-                    class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                    class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 transition-colors">
               <i-lucide [name]="icons.Download" class="w-4 h-4"></i-lucide>
               Exportar
             </button>
@@ -59,16 +65,18 @@
           </div>
           
           <div class="flex gap-2">
+            <!-- Botón anterior deshabilitado según tu código original -->
             <button disabled
                     class="p-2 text-slate-400 cursor-not-allowed">
               <i-lucide [name]="icons.ChevronLeft" class="w-5 h-5"></i-lucide>
             </button>
             
-            <button (click)="hoy()" 
-                    class="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg font-medium">
+            <button (click)="irAHoy()" 
+                    class="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg font-medium transition-colors">
               Hoy
             </button>
             
+            <!-- Botón siguiente deshabilitado según tu código original -->
             <button disabled
                     class="p-2 text-slate-400 cursor-not-allowed">
               <i-lucide [name]="icons.ChevronRight" class="w-5 h-5"></i-lucide>
@@ -80,7 +88,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg">
             <div class="flex items-center gap-3">
-              <!-- <i-lucide [name]="icons.Clock" class="w-5 h-5 text-blue-600"></i-lucide> -->
+              <i-lucide [name]="icons.Clock" class="w-5 h-5 text-blue-600"></i-lucide>
               <div>
                 <p class="text-sm text-slate-600 dark:text-slate-400">Días Laborables</p>
                 <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_laborables }}</p>
@@ -111,29 +119,35 @@
       </div>
 
       <!-- Filtros -->
-<div class="flex gap-2 mb-4">
-  <button 
-    (click)="filtroActual.set('hoy')" 
-    [class.bg-blue-600]="filtroActual() === 'hoy'"
-    [class.bg-slate-200]="filtroActual() !== 'hoy'"
-    class="px-3 py-1 rounded text-sm font-medium text-white dark:text-slate-900">
-    Hoy
-  </button>
-  <button 
-    (click)="filtroActual.set('semana')" 
-    [class.bg-blue-600]="filtroActual() === 'semana'"
-    [class.bg-slate-200]="filtroActual() !== 'semana'"
-    class="px-3 py-1 rounded text-sm font-medium text-white dark:text-slate-900">
-    Semana
-  </button>
-  <button 
-    (click)="filtroActual.set('mes')" 
-    [class.bg-blue-600]="filtroActual() === 'mes'"
-    [class.bg-slate-200]="filtroActual() !== 'mes'"
-    class="px-3 py-1 rounded text-sm font-medium text-white dark:text-slate-900">
-    Mes
-  </button>
-</div>
+      <div class="flex gap-2 mb-4">
+        <button 
+          (click)="filtroActual.set('hoy')" 
+          [class]="{
+            'bg-blue-600 text-white': filtroActual() === 'hoy',
+            'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300': filtroActual() !== 'hoy'
+          }"
+          class="px-3 py-1 rounded text-sm font-medium transition-colors">
+          Hoy
+        </button>
+        <button 
+          (click)="filtroActual.set('semana')" 
+          [class]="{
+            'bg-blue-600 text-white': filtroActual() === 'semana',
+            'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300': filtroActual() !== 'semana'
+          }"
+          class="px-3 py-1 rounded text-sm font-medium transition-colors">
+          Semana
+        </button>
+        <button 
+          (click)="filtroActual.set('mes')" 
+          [class]="{
+            'bg-blue-600 text-white': filtroActual() === 'mes',
+            'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300': filtroActual() !== 'mes'
+          }"
+          class="px-3 py-1 rounded text-sm font-medium transition-colors">
+          Mes
+        </button>
+      </div>
       
       <!-- Calendar Grid -->
       <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -149,79 +163,81 @@
         <!-- Calendar Days -->
         <div class="grid grid-cols-7">
           <!-- Empty days at start -->
-          @for (i of getArrayVaciosActual(); track i) {
+          @for (i of getArrayVaciosFiltrados(); track i) {
             <div class="min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50"></div>
           }
           
           <!-- Actual days -->
-          @for (dia of diasFiltrados().dias; track dia) {
+          @for (dia of diasFiltrados().dias; track dia; let idx = $index) {
             @if (dia !== null) {
-            @let diaData = calendarioCompleto()!.mapaDatos.get(dia);
-            <div [class]="getClaseDia(diaData, dia)" 
-                 class="border border-slate-100 dark:border-slate-800">
-              
-              <!-- Day Number -->
-              <div class="flex justify-between items-start mb-2">
-                <span [class]="{
-                  'text-blue-600 font-bold': esDiaHoy(dia),
-                  'text-slate-400': diaData?.es_dia_libre,
-                  'text-slate-900 dark:text-slate-300': !diaData?.es_dia_libre
-                }" class="text-lg font-semibold">
-                  {{ dia }}
-                </span>
+              @let diaData = calendarioCompleto()!.mapaDatos.get(dia);
+              <div [class]="getClaseDia(diaData, dia)" 
+                   class="transition-colors">
                 
-                @if (esDiaHoy(dia)) {
-                  <span class="px-2 py-1 bg-blue-600 text-white text-xs rounded">Hoy</span>
+                <!-- Day Number -->
+                <div class="flex justify-between items-start mb-2">
+                  <span [class]="{
+                    'text-blue-600 font-bold': esDiaHoy(dia),
+                    'text-slate-400': diaData?.es_dia_libre,
+                    'text-slate-900 dark:text-slate-300': !diaData?.es_dia_libre
+                  }" class="text-lg font-semibold">
+                    {{ dia }}
+                  </span>
+                  
+                  @if (esDiaHoy(dia)) {
+                    <span class="px-2 py-1 bg-blue-600 text-white text-xs rounded">Hoy</span>
+                  }
+                </div>
+                
+                <!-- Day Content -->
+                @if (diaData) {
+                  <div class="flex-1">
+                    <!-- Day of Week -->
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                      {{ diaData.dia_semana }}
+                    </p>
+                    
+                    <!-- Shift Info -->
+                    @if (!diaData.es_dia_libre && diaData.turno.horario) {
+                      <div [class]="getClaseTurno(diaData)" class="p-2 rounded-r space-y-1">
+                        <div class="flex items-center justify-between">
+                          <span class="text-xs font-bold uppercase">
+                            {{ formatearHorario(diaData.turno.horario) }}
+                          </span>
+                          <!-- <i-lucide [name]="getIconoDia(diaData)" class="w-3 h-3"></i-lucide> -->
+                        </div>
+                        
+                        @if (diaData.break?.horario) {
+                          <p class="text-[10px] text-slate-600 dark:text-slate-400">
+                            Break: {{ formatearHorario(diaData.break.horario) }}
+                          </p>
+                        }
+                        
+                        @if (diaData.cambios.ha_cambiado) {
+                          <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400">
+                            Modificado
+                          </p>
+                        }
+                      </div>
+                    }
+                    
+                    <!-- Free Day -->
+                    @if (diaData.es_dia_libre) {
+                      <div class="flex flex-col items-center justify-center h-full p-4">
+                        <i-lucide [name]="icons.Coffee" class="w-6 h-6 text-blue-500 mb-2"></i-lucide>
+                        <p class="text-sm font-medium text-blue-600">Día Libre</p>
+                      </div>
+                    }
+                  </div>
+                } @else if (diasFiltrados().dias[idx] !== null) {
+                  <!-- Día sin datos pero que debería tenerlos -->
+                  <div class="flex items-center justify-center h-full text-slate-400 text-sm">
+                    Sin turno asignado
+                  </div>
                 }
               </div>
-              
-              <!-- Day Content -->
-              @if (diaData) {
-                <div class="flex-1">
-                  <!-- Day of Week -->
-                  <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
-                    {{ diaData.dia_semana }}
-                  </p>
-                  
-                  <!-- Shift Info -->
-                  @if (!diaData.es_dia_libre && diaData.turno.horario) {
-                    <div [class]="getClaseTurno(diaData)" class="p-2 rounded-r space-y-1">
-                      <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase">
-                          {{ formatearHorario(diaData.turno.horario) }}
-                        </span>
-                        <!-- <i-lucide [name]="getIconoDia(diaData)" class="w-3 h-3"></i-lucide> -->
-                      </div>
-                      
-                      @if (diaData.break.horario) {
-                        <p class="text-[10px] text-slate-600 dark:text-slate-400">
-                          Break: {{ formatearHorario(diaData.break.horario) }}
-                        </p>
-                      }
-                      
-                      @if (diaData.cambios.ha_cambiado) {
-                        <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400">
-                          Modificado
-                        </p>
-                      }
-                    </div>
-                  }
-                  
-                  <!-- Free Day -->
-                  @if (diaData.es_dia_libre) {
-                    <div class="flex flex-col items-center justify-center h-full p-4">
-                      <i-lucide [name]="icons.Coffee" class="w-6 h-6 text-blue-500 mb-2"></i-lucide>
-                      <p class="text-sm font-medium text-blue-600">Día Libre</p>
-                    </div>
-                  }
-                </div>
-              } @else {
-                <div class="flex items-center justify-center h-full text-slate-400 text-sm">
-                  Sin datos
-                </div>
-              }
-            </div>
-            }  @else {
+            } @else {
+              <!-- Día vacío (fuera del filtro actual) -->
               <div class="min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50"></div>
             }
           }
@@ -266,6 +282,18 @@
       <div class="text-center text-slate-600 dark:text-slate-400 text-sm py-8">
         <p>Última actualización: {{ calendarioCompleto()!.data.metadata.ultima_actualizacion | date:'medium' }}</p>
         <p class="mt-1">Generado el: {{ calendarioCompleto()!.data.periodo.fecha_generacion | date:'mediumDate' }}</p>
+      </div>
+    </div>
+  } @else if (!loading() && !error()) {
+    <!-- Estado vacío cuando no hay datos -->
+    <div class="flex items-center justify-center h-96">
+      <div class="text-center">
+        <i-lucide [name]="icons.Calendar" class="w-16 h-16 text-slate-400 mb-4 mx-auto"></i-lucide>
+        <p class="text-lg text-slate-600 dark:text-slate-400">No hay datos del calendario disponibles</p>
+        <button (click)="refrescar()" 
+                class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+          Cargar Calendario
+        </button>
       </div>
     </div>
   }
