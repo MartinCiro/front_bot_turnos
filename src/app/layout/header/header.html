@@ -1,86 +1,65 @@
 <header class="py-6">
   <div class="flex justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8">
-    
+
     <!-- Logo - OPTIMIZADO CON SIGNAL -->
     <div class="flex items-center gap-4">
       <svg fill="none" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
         <circle cx="16" cy="24" r="11" class="stroke-primary dark:stroke-accent-blue" stroke-width="3"></circle>
         <circle cx="32" cy="24" r="11" class="stroke-primary dark:stroke-accent-blue" stroke-width="3"></circle>
       </svg>
-      <span class="font-display text-3xl font-bold tracking-wider dark:text-accent-blue"
-            [ngClass]="logoClasses()">
+      <span class="font-display text-3xl font-bold tracking-wider dark:text-accent-blue" [ngClass]="logoClasses()">
         SKUISH
       </span>
     </div>
 
-    <!-- Navegación - OPTIMIZADO CON SIGNAL -->
-    <nav class="hidden md:flex items-center space-x-8">
-      <a routerLink="/" 
-         class="font-medium hover:text-primary dark:hover:text-accent-blue transition-colors"
-         [ngClass]="navClasses()">
-        Home
-      </a>
-      <a routerLink="/new-arrivals" 
-         class="font-medium hover:text-primary dark:hover:text-accent-blue transition-colors"
-         [ngClass]="navClasses()">
-        New Arrivals
-      </a>
-      <a routerLink="/collections" 
-         class="font-medium hover:text-primary dark:hover:text-accent-blue transition-colors"
-         [ngClass]="navClasses()">
-        Collections
-      </a>
-      <a routerLink="/about" 
-         class="font-medium hover:text-primary dark:hover:text-accent-gray transition-colors"
-         [ngClass]="navClasses()">
-        About
-      </a>
-    </nav>
-
     <!-- Acciones - OPTIMIZADO CON SIGNALS -->
     <div class="flex items-center space-x-4">
-      
-      <!-- Botón de búsqueda -->
-      <button class="p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105" 
-              aria-label="Search">
-        <i-lucide [name]="Search" 
-                  class="h-5 w-5" 
-                  [ngClass]="iconColor()"
-                  [strokeWidth]="1.8">
+      @if (data()) {
+      <button (click)="exportarCalendario()"
+        class="p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105"
+        aria-label="Exportar calendario">
+        <i-lucide [name]="Download" class="h-5 w-5" [ngClass]="iconColor()" [strokeWidth]="1.8">
         </i-lucide>
       </button>
+      }
 
-      <!-- Botón de tema - MÁXIMO RENDIMIENTO -->
+      <!-- ✅ Selector de usuario (solo si >1 usuario) -->
+      @if (usuarios().length > 1) {
+      <div class="relative">
+        <button (click)="toggleSelectorUsuario()"
+          class="p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105"
+          aria-label="Cambiar usuario">
+          <i-lucide [name]="User" class="h-5 w-5" [ngClass]="iconColor()" [strokeWidth]="1.8">
+          </i-lucide>
+        </button>
+
+        <!-- Dropdown -->
+        @if (mostrarSelectorUsuario()) {
+        <div
+          class="absolute right-0 mt-2 w-60 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-50">
+          <div
+            class="p-2 text-sm font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+            Usuarios
+          </div>
+          <div class="max-h-60 overflow-y-auto">
+            @for (usuario of usuarios(); track usuario) {
+            <button (click)="seleccionarUsuario(usuario)" class="w-full text-left px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 
+                       {{ usuario === usuarioActual() ? 'bg-blue-50 dark:bg-blue-900/30 font-medium' : '' }}"
+              type="button">
+              {{ formatearNombreUsuario(usuario) }}
+            </button>
+            }
+          </div>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Botón de tema -->
       <button (click)="toggleDarkMode()"
-              class="p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105"
-              [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'">
-        <i-lucide [name]="themeIcon()" 
-                  class="h-5 w-5" 
-                  [ngClass]="themeIconColor()"
-                  [strokeWidth]="1.8">
-        </i-lucide>
-      </button>
-
-      <!-- Botón de carrito -->
-      <button class="relative p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105" 
-              aria-label="Shopping cart">
-        <i-lucide [name]="ShoppingBag" 
-                  class="h-5 w-5" 
-                  [ngClass]="iconColor()"
-                  [strokeWidth]="1.8">
-        </i-lucide>
-        <span class="absolute top-1 right-1 w-5 h-5 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg">
-          3
-        </span>
-      </button>
-
-      <!-- Menú móvil -->
-      <button class="md:hidden p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105" 
-              aria-label="Menu">
-        <i-lucide [name]="Menu" 
-                  class="h-5 w-5" 
-                  [ngClass]="iconColor()"
-                  [strokeWidth]="1.8">
+        class="p-3 rounded-full transition-all duration-200 hover:shadow-md hover:scale-105"
+        [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'">
+        <i-lucide [name]="themeIcon()" class="h-5 w-5" [ngClass]="themeIconColor()" [strokeWidth]="1.8">
         </i-lucide>
       </button>
     </div>

@@ -1,60 +1,8 @@
-<footer class="bg-accent-green dark:bg-slate-900 mt-12 border-t-4 border-accent-blue dark:border-primary text-slate-800 dark:text-slate-300">
-  <div class="container mx-auto px-6 py-8">
-    
-    <!-- Contenedor principal en 3 columnas -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-      
-      <!-- Columna 1: Logo centrado -->
-      <div class="flex justify-center md:justify-start">
-        <div class="relative flex items-center">
-          <!-- Infinito más pequeño y mejor posicionado -->
-          <div class="relative w-16 h-16 mr-4">
-            <svg fill="none" viewBox="0 0 48 48" class="w-full h-full">
-              <circle cx="16" cy="24" r="11" stroke="currentColor" stroke-width="3"></circle>
-              <circle cx="32" cy="24" r="11" stroke="currentColor" stroke-width="3"></circle>
-            </svg>
-          </div>
-          <h1 class="font-display text-3xl font-bold text-primary dark:text-accent-blue whitespace-nowrap">
-            SKUISH
-          </h1>
-        </div>
-      </div>
-
-      <!-- Columna 2: Navegación centrada -->
-      <nav class="flex flex-wrap justify-center gap-5">
-        <a routerLink="/" class="font-medium hover:text-white dark:hover:text-accent-blue transition-colors">
-          Home
-        </a>
-        <a routerLink="/about" class="font-medium hover:text-white dark:hover:text-accent-blue transition-colors">
-          About Us
-        </a>
-        <a routerLink="/contact" class="font-medium hover:text-white dark:hover:text-accent-blue transition-colors">
-          Contact
-        </a>
-        <a routerLink="/faq" class="font-medium hover:text-white dark:hover:text-accent-blue transition-colors">
-          FAQ
-        </a>
-      </nav>
-
-      <!-- Columna 3: Redes sociales alineadas a la derecha -->
-      <div class="flex justify-center md:justify-end space-x-6">
-        <a href="#" class="hover:text-white dark:hover:text-accent-blue transition-colors" aria-label="Facebook">
-          <i-lucide [name]="Facebook" class="h-7 w-7"></i-lucide>
-        </a>
-        <a href="#" class="hover:text-white dark:hover:text-accent-blue transition-colors" aria-label="Twitter">
-          <i-lucide [name]="Twitter" class="h-7 w-7"></i-lucide>
-        </a>
-        <a href="#" class="hover:text-white dark:hover:text-accent-blue transition-colors" aria-label="Instagram">
-          <i-lucide [name]="Instagram" class="h-7 w-7"></i-lucide>
-        </a>
-      </div>
-    </div>
-
+<footer class="container mx-auto px-6 py-8">
     <!-- Copyright debajo de todo -->
-    <div class="mt-12 pt-8 border-t border-accent-blue/50 dark:border-primary/50 text-center">
+    <div class="pt-8 border-t border-accent-blue/50 dark:border-primary/50 text-center">
       <p class="text-sm text-slate-600 dark:text-slate-400">
-  © {{ currentYear }} Skuish Store. All Rights Reserved.
-</p>
+        © {{ currentYear }} Skuish Store. All Rights Reserved.
+      </p>
     </div>
-  </div>
 </footer>
