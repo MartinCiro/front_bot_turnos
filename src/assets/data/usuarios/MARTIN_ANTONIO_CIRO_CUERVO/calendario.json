@@ -696,7 +696,7 @@
     },
     {
       "dia": 29,
-      "dia_semana": "Lunes",
+      "dia_semana": "Jueves",
       "turno": {
         "horario": null,
         "tipo": "Dimensionado",
@@ -717,7 +717,7 @@
     },
     {
       "dia": 30,
-      "dia_semana": "Martes",
+      "dia_semana": "Viernes",
       "turno": {
         "horario": null,
         "tipo": "Dimensionado",
@@ -738,7 +738,7 @@
     },
     {
       "dia": 31,
-      "dia_semana": "Miércoles",
+      "dia_semana": "Sábado",
       "turno": {
         "horario": null,
         "tipo": "Dimensionado",
