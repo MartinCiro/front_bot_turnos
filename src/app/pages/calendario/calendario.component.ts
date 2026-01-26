@@ -32,6 +32,7 @@ export class CalendarioComponent {
     usuarioActual = this.service.usuarioActual;
     data = this.service.data;
     error = this.service.error;
+    mostrarSelectorUsuario = signal(false);
 
     // Iconos
     icons = {
@@ -207,5 +208,23 @@ export class CalendarioComponent {
 
     formatearHorario(horario: string | null): string {
         return horario || 'Sin horario';
+    }
+
+    formatearNombreUsuario(nombre: string): string {
+        return nombre
+            .split('_')
+            .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase())
+            .join(' ');
+    }
+
+    // Alternar visibilidad del selector
+    toggleSelectorUsuario(): void {
+        this.mostrarSelectorUsuario.update(v => !v);
+    }
+
+    // Seleccionar usuario y cerrar dropdown
+    seleccionarUsuario(usuario: string): void {
+        this.service.cambiarUsuario(usuario);
+        this.mostrarSelectorUsuario.set(false);
     }
 }
