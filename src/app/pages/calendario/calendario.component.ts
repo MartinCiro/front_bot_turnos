@@ -14,7 +14,7 @@ import {
     RefreshCw,
     X
 } from '../../shared/icons/lucide-icons';
-import { DiaCalendario, CalendarioData } from '../../core/models/calendario.model';
+import { DiaCalendario } from '../../core/models/calendario.model';
 
 @Component({
     selector: 'app-calendario',

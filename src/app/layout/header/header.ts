@@ -1,6 +1,6 @@
 // src/app/layout/header/header.ts
 import { CommonModule } from '@angular/common';
-import { Component, inject, computed, signal } from '@angular/core';
+import { Component, inject, computed, signal, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { 
   LucideAngularModule, 
@@ -13,7 +13,7 @@ import {
   User
 } from 'lucide-angular';
 import { ThemeService } from '@app/core/services/theme';
-import { CalendarioService } from '@app/core/services/calendario.service'; // 👈 nuevo
+import { CalendarioService } from '@app/core/services/calendario.service';
 
 @Component({
   selector: 'app-header',
@@ -22,9 +22,9 @@ import { CalendarioService } from '@app/core/services/calendario.service'; // �
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements AfterViewInit, OnDestroy {
   private themeService = inject(ThemeService);
-  private calendarioService = inject(CalendarioService); // 👈 inyectado
+  private calendarioService = inject(CalendarioService);
 
   // Signals del servicio
   usuarios = this.calendarioService.usuarios;
@@ -40,8 +40,8 @@ export class HeaderComponent {
   readonly Menu = Menu;
   readonly Sun = Sun;
   readonly Moon = Moon;
-  readonly Download = Download; // 👈
-  readonly User = User;         // 👈
+  readonly Download = Download;
+  readonly User = User;
 
   // Icono dinámico para tema
   themeIcon = computed(() => this.isDarkMode() ? this.Sun : this.Moon);
@@ -64,10 +64,14 @@ export class HeaderComponent {
     this.isDarkMode() ? 'text-yellow-400' : 'text-gray-800'
   );
 
-  // ✅ NUEVO: Señal para dropdown de usuarios
+  // Señal para dropdown
   mostrarSelectorUsuario = signal(false);
 
-  // Formatea nombre de usuario: MARTIN_ANTONIO → Martin Antonio
+  // ⚠️ Referencia al listener para limpiarlo
+  private clickOutsideHandler: ((event: MouseEvent) => void) | null = null;
+
+  constructor(private el: ElementRef) {}
+
   formatearNombreUsuario(nombre: string): string {
     return nombre
       .split('_')
@@ -75,7 +79,6 @@ export class HeaderComponent {
       .join(' ');
   }
 
-  // Acciones
   toggleDarkMode() {
     this.themeService.toggleTheme();
   }
@@ -100,5 +103,23 @@ export class HeaderComponent {
 
   toggleSelectorUsuario(): void {
     this.mostrarSelectorUsuario.update(v => !v);
+  }
+
+  // 👇 CIERRA EL DROPDOWN AL HACER CLIC FUERA
+  ngAfterViewInit() {
+    this.clickOutsideHandler = (event: MouseEvent) => {
+      // Verifica si el clic fue FUERA del header
+      if (!this.el.nativeElement.contains(event.target)) {
+        this.mostrarSelectorUsuario.set(false);
+      }
+    };
+    document.addEventListener('click', this.clickOutsideHandler);
+  }
+
+  ngOnDestroy() {
+    if (this.clickOutsideHandler) {
+      document.removeEventListener('click', this.clickOutsideHandler);
+      this.clickOutsideHandler = null;
+    }
   }
 }
