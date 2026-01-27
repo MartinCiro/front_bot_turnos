@@ -75,6 +75,52 @@ export class CalendarioComponent {
         return this.mesAnio().split(' de ')[0];
     }
 
+    getHoraIngreso(horario: string): string {
+  // "08:00-17:00" → "08:00"
+  return horario.split('-')[0];
+}
+
+getHoraSalida(horario: string): string {
+  // "08:00-17:00" → "17:00"
+  return horario.split('-')[1];
+}
+
+getHorasTotales(horario: string): string {
+  const [inicio, fin] = horario.split('-');
+  const inicioDate = new Date(`2000-01-01T${inicio}`);
+  const finDate = new Date(`2000-01-01T${fin}`);
+  const diffMs = finDate.getTime() - inicioDate.getTime();
+  const diffHours = diffMs / (1000 * 60 * 60);
+  
+  // Restar break si existe
+  const breakHours = 1; // ajustar según tu lógica
+  const total = diffHours - breakHours;
+  
+  return `${total.toFixed(1)}h`;
+}
+
+getHoraInicioBreak(horarioBreak: string): string {
+  return horarioBreak.split('-')[0];
+}
+
+getHoraFinBreak(horarioBreak: string): string {
+  return horarioBreak.split('-')[1];
+}
+
+getDuracionBreak(horarioBreak: string): string {
+  const [inicio, fin] = horarioBreak.split('-');
+  const inicioDate = new Date(`2000-01-01T${inicio}`);
+  const finDate = new Date(`2000-01-01T${fin}`);
+  const diffMs = finDate.getTime() - inicioDate.getTime();
+  const diffMinutes = diffMs / (1000 * 60);
+  
+  if (diffMinutes < 60) {
+    return `${diffMinutes}min`;
+  } else {
+    return `${(diffMinutes / 60).toFixed(1)}h`;
+  }
+}
+
     formatearHorarioCompacto(horario: string): string {
         // Ejemplo: "08:00-17:00" → "8:00-17:00" o "8-17"
         const [inicio, fin] = horario.split('-');

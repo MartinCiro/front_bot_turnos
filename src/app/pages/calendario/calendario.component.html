@@ -83,8 +83,8 @@
 
     <!-- Calendar Grid -->
     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-      <!-- Week Days Header  -->
-      <div class="grid grid-cols-7 border-b border-slate-200 dark:border-slate-700">
+      <!-- Week Days Header -->
+      <div class="hidden md:grid md:grid-cols-7 border-b border-slate-200 dark:border-slate-700">
         @for (dia of diasSemana; track dia) {
         <div class="p-4 text-center font-semibold text-slate-600 dark:text-slate-400">
           {{ dia }}
@@ -92,77 +92,79 @@
         }
       </div>
 
-      <!-- Calendar Days -->
-      <div class="grid grid-cols-7">
-        <!-- Solo en vista 'mes': días vacíos al inicio -->
+      <!-- Calendar Days Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7">
+        <!-- Días vacíos al inicio -->
         @if (vistaActual() === 'mes') {
-        @for (_ of getArrayVacios(); track $index) {
-        <div class="min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50"></div>
-        }
+          @for (_ of getArrayVacios(); track $index) {
+            <div
+              class="hidden md:block min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+            </div>
+          }
         }
 
-        <!-- Días reales según la vista -->
+        <!-- Días reales del calendario -->
         @for (dia of diasFiltrados().dias; track dia) {
-        @let diaData = calendarioCompleto()!.mapaDatos.get(dia);
-        <div [class]="getClaseDia(diaData)" class="border border-slate-100 dark:border-slate-800">
+          @let diaData = calendarioCompleto()!.mapaDatos.get(dia);
+          <div [class]="getClaseDia(diaData)" class="border border-slate-100 dark:border-slate-800">
 
-          <!-- Day Number -->
-          <div class="flex justify-between items-start mb-2">
-            <span [class]="{
+            <!-- Day Number -->
+            <div class="flex justify-between items-start mb-2">
+              <span [class]="{
                   'text-blue-600 font-bold': esDiaHoy(dia),
                   'text-slate-400': diaData?.es_dia_libre,
                   'text-slate-900 dark:text-slate-300': !diaData?.es_dia_libre
                 }" class="text-lg font-semibold">
-              {{ dia }}
-            </span>
+                {{ dia }}
+              </span>
 
-            @if (esDiaHoy(dia)) {
-            <span class="px-2 py-1 bg-blue-600 text-white text-xs rounded">Hoy</span>
-            }
-          </div>
+              @if (esDiaHoy(dia)) {
+              <span class="px-2 py-1 bg-blue-600 text-white text-xs rounded">Hoy</span>
+              }
+            </div>
 
-          <!-- Day Content -->
-          @if (diaData) {
-          <div class="flex-1">
-            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
-              {{ diaData.dia_semana }}
-            </p>
+            <!-- Day Content -->
+            @if (diaData) {
+            <div class="flex-1">
+              <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                {{ diaData.dia_semana }}
+              </p>
 
-            @if (!diaData.es_dia_libre && diaData.turno.horario) {
-            <div [class]="getClaseTurno(diaData)" class="p-2 rounded-r space-y-1">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase">
-                  {{ formatearHorario(diaData.turno.horario) }}
-                </span>
+              @if (!diaData.es_dia_libre && diaData.turno.horario) {
+              <div [class]="getClaseTurno(diaData)" class="p-2 rounded-r space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase">
+                    {{ formatearHorario(diaData.turno.horario) }}
+                  </span>
+                </div>
+
+                @if (diaData.break.horario) {
+                <p class="text-[10px] text-slate-600 dark:text-slate-400">
+                  Break: {{ formatearHorario(diaData.break.horario) }}
+                </p>
+                }
+
+                @if (diaData.cambios.ha_cambiado) {
+                <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400">
+                  Modificado
+                </p>
+                }
               </div>
-
-              @if (diaData.break.horario) {
-              <p class="text-[10px] text-slate-600 dark:text-slate-400">
-                Break: {{ formatearHorario(diaData.break.horario) }}
-              </p>
               }
 
-              @if (diaData.cambios.ha_cambiado) {
-              <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400">
-                Modificado
-              </p>
+              @if (diaData.es_dia_libre) {
+              <div class="flex flex-col items-center justify-center h-full p-4">
+                <i-lucide [name]="icons.Coffee" class="w-6 h-6 text-blue-500 mb-2"></i-lucide>
+                <p class="text-sm font-medium text-blue-600">Día Libre</p>
+              </div>
               }
             </div>
-            }
-
-            @if (diaData.es_dia_libre) {
-            <div class="flex flex-col items-center justify-center h-full p-4">
-              <i-lucide [name]="icons.Coffee" class="w-6 h-6 text-blue-500 mb-2"></i-lucide>
-              <p class="text-sm font-medium text-blue-600">Día Libre</p>
+            } @else {
+            <div class="flex items-center justify-center h-full text-slate-400 text-sm">
+              Sin datos
             </div>
             }
           </div>
-          } @else {
-          <div class="flex items-center justify-center h-full text-slate-400 text-sm">
-            Sin datos
-          </div>
-          }
-        </div>
         }
       </div>
     </div>
