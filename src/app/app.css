@@ -138,6 +138,7 @@
   border-color: #1E293B;
 }
 
+
 /* Dashboard responsive utilities */
 @media (min-width: 768px) {
   .md\:grid-cols-2 {

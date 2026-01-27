@@ -71,6 +71,22 @@ export class CalendarioComponent {
         }
     });
 
+    mes() {
+        return this.mesAnio().split(' de ')[0];
+    }
+
+    formatearHorarioCompacto(horario: string): string {
+        // Ejemplo: "08:00-17:00" → "8:00-17:00" o "8-17"
+        const [inicio, fin] = horario.split('-');
+
+        // Quita ceros iniciales: "08:00" → "8:00"
+        const inicioCompacto = inicio.replace(/^0/, '');
+        const finCompacto = fin.replace(/^0/, '');
+
+        // Para móvil podrías incluso quitar los minutos si son :00
+        return `${inicioCompacto}-${finCompacto}`;
+    }
+
     // Preprocesa el calendario completo
     calendarioCompleto = computed(() => {
         const data = this.data();

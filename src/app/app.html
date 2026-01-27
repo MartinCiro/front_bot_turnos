@@ -1,7 +1,7 @@
 <!-- Usamos las computed signals del componente -->
 <div class="min-h-screen"
   [ngClass]="isDarkMode() ? 'bg-background-dark text-gray-200' : 'bg-background-light text-gray-800'">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 border-2 rounded-2xl" [ngClass]="containerClasses()">
+  <div class="container mobile-no-border mx-auto px-4 sm:px-6 lg:px-8 border-2 rounded-2xl" [ngClass]="containerClasses()">
 
     <!-- Header Component -->
     <app-header />
