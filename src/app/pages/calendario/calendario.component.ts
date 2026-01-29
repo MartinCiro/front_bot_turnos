@@ -15,6 +15,7 @@ import {
     X
 } from '../../shared/icons/lucide-icons';
 import { DiaCalendario } from '../../core/models/calendario.model';
+import { ThemeService } from '@app/core/services/theme';
 
 @Component({
     selector: 'app-calendario',
@@ -26,6 +27,7 @@ import { DiaCalendario } from '../../core/models/calendario.model';
 })
 export class CalendarioComponent {
     private service = inject(CalendarioService);
+    private themeService = inject(ThemeService);
 
     // Señales del servicio
     usuarios = this.service.usuarios;
@@ -47,6 +49,43 @@ export class CalendarioComponent {
         RefreshCw,
         X
     };
+
+    isDarkMode = this.themeService.isDarkMode;
+
+    nombreUsuarioColor = computed(() =>
+    this.isDarkMode() 
+            ? 'text-slate-600 dark:text-slate-400'  
+            : 'text-slate-500'
+    );
+
+    controlsColors = computed(() =>
+        this.isDarkMode() ? 'bg-white dark:bg-slate-800 dark:border-slate-700 border-slate-200' : 'color-background-light border-zinc-200'
+    );
+
+    actionsCalendar = computed(() =>
+        this.isDarkMode()
+            ? 'hover:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-400'
+            : 'hover:bg-slate-100 dark:hover:bg-gray-200 text-slate-600'
+    );
+ 
+    vistaActualColor = computed(() =>
+        this.isDarkMode()
+            ? 'dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+            : 'bg-gray-200 text-slate-700'
+    );
+
+    bgStats = computed(() =>
+        this.isDarkMode()
+            ? 'bg-slate-50 dark:bg-slate-900/50'
+            : 'bg-gray-200/30'
+    );
+
+    bgIconsStats = computed(() =>
+        this.isDarkMode()
+            ? 'bg-slate-50 dark:bg-slate-900/50'
+            : 'bg-gray-200/30'
+    );
+
 
     // Días de la semana (lunes a domingo)
     diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];

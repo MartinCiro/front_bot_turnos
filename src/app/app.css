@@ -1,30 +1,5 @@
 /* ===== DASHBOARD SPECIFIC UTILITIES ===== */
 
-/* Dashboard color utilities */
-.bg-card-dark {
-  background-color: #1F2937; /* surface-dark */
-}
-
-.dark .bg-card-dark {
-  background-color: #1F2937;
-}
-
-.bg-card-hover {
-  background-color: #374151; /* gray-700 */
-}
-
-.dark .bg-card-hover {
-  background-color: #374151;
-}
-
-.text-subtle-text {
-  color: #9CA3AF; /* gray-400 */
-}
-
-.dark .text-subtle-text {
-  color: #9CA3AF;
-}
-
 /* Dashboard spacing utilities */
 .scroll-smooth {
   scroll-behavior: smooth;
@@ -132,10 +107,6 @@
 
 .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
   border-color: #E2E8F0;
-}
-
-.dark .divide-slate-800 > :not([hidden]) ~ :not([hidden]) {
-  border-color: #1E293B;
 }
 
 

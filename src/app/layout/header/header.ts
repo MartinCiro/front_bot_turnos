@@ -1,7 +1,6 @@
 // src/app/layout/header/header.ts
 import { CommonModule } from '@angular/common';
 import { Component, inject, computed, signal, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { 
   LucideAngularModule, 
   Search, 
@@ -18,7 +17,7 @@ import { CalendarioService } from '@app/core/services/calendario.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })

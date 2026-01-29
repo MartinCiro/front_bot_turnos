@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8">
+<div class="min-h-screen p-4 md:p-8 dark">
 
   <!-- Calendar Content -->
   @if (calendarioCompleto()) {
@@ -11,7 +11,7 @@
           <h1 class="text-3xl md:text-4xl font-bold mb-2">Calendario de Turnos</h1>
 
           @if (data()) {
-          <p class="text-slate-600 dark:text-slate-400 mt-1 word-break">
+          <p class="mt-1 word-break" [ngClass]="nombreUsuarioColor()">
             {{ data()!.usuario.nombre_completo }}
           </p>
           }
@@ -20,28 +20,28 @@
     </header>
 
     <!-- Calendar Controls -->
-    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6">
+    <div class="rounded-xl border p-6" [ngClass]="controlsColors()">
       <div class="grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
         <div class="flex items-center gap-4 justify-center sm:justify-start">
           <i-lucide [name]="icons.Calendar" class="w-6 h-6 text-blue-600"></i-lucide>
           <h2 class="text-2xl font-bold text-center sm:text-left truncate">
-            <span class="inline sm:hidden">{{ mes() }}</span>
-            <span class="hidden sm:inline">{{ mesAnio() }}</span>
+            <span class="inline sm:hidden dark">{{ mes() }}</span>
+            <span class="hidden sm:inline dark">{{ mesAnio() }}</span>
           </h2>
         </div>
 
         <!-- Vista cíclica -->
         <div class="flex gap-2 justify-center sm:justify-end">
-          <button (click)="retrocederVista()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+          <button (click)="retrocederVista()" class="p-2 rounded-lg" [ngClass]="actionsCalendar()">
             <i-lucide [name]="icons.ChevronLeft" class="w-5 h-5"></i-lucide>
           </button>
 
           <div
-            class="px-6 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg font-bold whitespace-nowrap">
+            class="px-6 py-2 bg-blue-100 rounded-lg font-bold whitespace-nowrap" [ngClass]="vistaActualColor()">
             {{ getNombreVistaActual() }}
           </div>
 
-          <button (click)="avanzarVista()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+          <button (click)="avanzarVista()" class="p-2 rounded-lg" [ngClass]="actionsCalendar()">
             <i-lucide [name]="icons.ChevronRight" class="w-5 h-5"></i-lucide>
           </button>
         </div>
@@ -49,31 +49,31 @@
 
       <!-- Stats -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg">
+        <div class="p-4 rounded-lg" [ngClass]="bgStats()">
           <div class="flex items-center gap-3">
             <i-lucide [name]="icons.Clock" class="w-5 h-5 text-blue-600"></i-lucide>
             <div>
-              <p class="text-sm text-slate-600 dark:text-slate-400">Días Laborables</p>
+              <p class="text-sm">Días Laborables</p>
               <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_laborables }}</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg">
+        <div class="p-4 rounded-lg" [ngClass]="bgStats()">
           <div class="flex items-center gap-3">
             <i-lucide [name]="icons.Coffee" class="w-5 h-5 text-green-600"></i-lucide>
             <div>
-              <p class="text-sm text-slate-600 dark:text-slate-400">Días Libres</p>
+              <p class="text-sm">Días Libres</p>
               <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_libres }}</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg">
+        <div class="p-4 rounded-lg" [ngClass]="bgStats()">
           <div class="flex items-center gap-3">
             <i-lucide [name]="icons.User" class="w-5 h-5 text-purple-600"></i-lucide>
             <div>
-              <p class="text-sm text-slate-600 dark:text-slate-400">Total Días</p>
+              <p class="text-sm">Total Días</p>
               <p class="text-2xl font-bold">{{ calendarioCompleto()!.data.periodo.dias_totales }}</p>
             </div>
           </div>
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Calendar Grid -->
-    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div class="bg-white rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
       <!-- Week Days Header -->
       <div class="hidden md:grid md:grid-cols-7 border-b border-slate-200 dark:border-slate-700">
         @for (dia of diasSemana; track dia) {
@@ -98,7 +98,7 @@
         @if (vistaActual() === 'mes') {
           @for (_ of getArrayVacios(); track $index) {
             <div
-              class="hidden md:block min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+              class="hidden md:block min-h-[140px] border border-slate-100 dark:border-slate-800 bg-slate-50/50">
             </div>
           }
         }
@@ -170,7 +170,7 @@
     </div>
 
     <!-- Legend -->
-    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6">
+    <div class="bg-white rounded-xl border border-slate-200 dark:border-slate-700 p-6">
       <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
         <i-lucide [name]="icons.AlertCircle" class="w-5 h-5"></i-lucide>
         Leyenda
