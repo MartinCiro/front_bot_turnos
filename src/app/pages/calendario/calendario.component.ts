@@ -53,37 +53,89 @@ export class CalendarioComponent {
     isDarkMode = this.themeService.isDarkMode;
 
     nombreUsuarioColor = computed(() =>
-    this.isDarkMode() 
-            ? 'text-slate-600 dark:text-slate-400'  
+        this.isDarkMode()
+            ? 'text-slate-600'
             : 'text-slate-500'
     );
 
     controlsColors = computed(() =>
-        this.isDarkMode() ? 'bg-white dark:bg-slate-800 dark:border-slate-700 border-slate-200' : 'color-background-light border-zinc-200'
+        this.isDarkMode()
+            ? 'bg-slate-800 border-slate-700 text-white'
+            : 'bg-white border-slate-200 text-black'
     );
 
     actionsCalendar = computed(() =>
         this.isDarkMode()
-            ? 'hover:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-400'
-            : 'hover:bg-slate-100 dark:hover:bg-gray-200 text-slate-600'
+            ? 'hover:bg-slate-600 text-slate-400'
+            : 'hover:bg-gray-200 text-slate-600'
     );
- 
+
     vistaActualColor = computed(() =>
         this.isDarkMode()
-            ? 'dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+            ? 'bg-blue-900/30 text-blue-300'
             : 'bg-gray-200 text-slate-700'
     );
 
     bgStats = computed(() =>
         this.isDarkMode()
-            ? 'bg-slate-50 dark:bg-slate-900/50'
+            ? 'bg-slate-900/50'
             : 'bg-gray-200/30'
     );
 
     bgIconsStats = computed(() =>
         this.isDarkMode()
-            ? 'bg-slate-50 dark:bg-slate-900/50'
+            ? 'bg-slate-900/50'
             : 'bg-gray-200/30'
+    );
+
+    bgColorCalendar = computed(() =>
+        this.isDarkMode()
+            ? 'bg-slate-800 border-slate-700'
+            : 'bg-white border-slate-200'
+    );
+
+    dayCalendarHeader = computed(() =>
+        this.isDarkMode()
+            ? 'border-slate-700 text-slate-400'
+            : 'border-slate-200 text-slate-600'
+    );
+
+    dayCalendarClean = computed(() =>
+        this.isDarkMode()
+            ? 'border-slate-100 bg-slate-50/50'
+            : 'border-slate-800'
+    );
+
+    dayCalendarReal = computed(() =>
+        this.isDarkMode()
+            ? 'border-slate-800'
+            : 'border-slate-100'
+    );
+
+    calendarHeader = computed(() =>
+        this.isDarkMode()
+            ? 'border-slate-700'
+            : 'border-slate-200'
+    );
+
+    calendarDayWeek = computed(() =>
+        this.isDarkMode()
+            ? 'text-slate-400'
+            : 'text-slate-600'
+    );
+
+    getDiaColor(dia: number, diaData: any): string {
+        if (this.esDiaHoy(dia)) return 'text-blue-600 font-bold';
+        if (diaData?.es_dia_libre) return 'text-slate-400';
+        
+        // Para días normales en modo LIGHT (sin dark:)
+        return this.isDarkMode() 
+            ? 'text-slate-300'  
+            : 'text-slate-900';
+    }
+
+    borderLegend = computed(() =>
+        this.isDarkMode() ? 'bg-slate-900/50' : 'border-zinc-200'
     );
 
 
@@ -247,13 +299,12 @@ export class CalendarioComponent {
         return dia === this.hoy();
     }
 
-    getClaseDia(dia: DiaCalendario | undefined): string {
-        const base = 'min-h-[140px] p-2 flex flex-col border border-slate-100 dark:border-slate-800';
-        if (!dia) return `${base} bg-slate-50 dark:bg-slate-900/50`;
-        if (dia.es_dia_libre) return `${base} bg-slate-50 dark:bg-slate-900/50`;
-        if (dia.cambios.ha_cambiado) return `${base} bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800`;
-        return `${base} bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700`;
-    }
+    getClaseDia(dia?: DiaCalendario) {
+  return {
+    'bg-slate-50 dark:bg-slate-900/50': !dia || dia.es_dia_libre,
+    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800': dia?.cambios.ha_cambiado,
+  };
+}
 
     getClaseTurno(dia: DiaCalendario): string {
         if (dia.es_dia_libre) return 'bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500';

@@ -9,54 +9,46 @@ export type Theme = 'light' | 'dark';
 export class ThemeService {
   private themeSignal = signal<Theme>('light');
   private platformId = inject(PLATFORM_ID);
-  
+
   // Signal para seguir cambios en la preferencia del sistema
   private systemPreference = signal<'light' | 'dark'>('light');
-  
+
   // Computed signals
   currentTheme = this.themeSignal.asReadonly();
   isDarkMode = computed(() => this.themeSignal() === 'dark');
 
   constructor() {
-    // Inicializar solo en browser
     if (isPlatformBrowser(this.platformId)) {
       this.initializeTheme();
-      this.listenToSystemPreference();
-      
-      // Effect para aplicar el tema cuando cambie la signal
+
       effect(() => {
         const theme = this.themeSignal();
         this.applyTheme(theme);
-        
-        // Guardar en localStorage solo si no es la preferencia del sistema
-        if (theme !== this.systemPreference()) {
-          localStorage.setItem('theme', theme);
-        } else {
-          localStorage.removeItem('theme'); // Usar preferencia del sistema
-        }
+
+        theme !== this.systemPreference() ? localStorage.setItem('theme', theme) : localStorage.removeItem('theme');
       });
     }
   }
 
   private initializeTheme() {
-    // 1. Verificar localStorage primero
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    
-    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-      this.themeSignal.set(savedTheme);
-      return;
-    }
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
 
-    // 2. Si no hay tema guardado, usar preferencia del sistema
-    this.detectSystemPreference();
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      // Si el usuario ya eligió un tema, úsalo
+      this.themeSignal.set(savedTheme);
+    } else {
+      // Por defecto: modo oscuro, ignorando la preferencia del sistema
+      this.themeSignal.set('dark');
+      this.systemPreference.set('dark'); // opcional, para coherencia interna
+    }
   }
 
   private detectSystemPreference() {
     if (!isPlatformBrowser(this.platformId)) return;
-    
+
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const systemTheme: Theme = prefersDark ? 'dark' : 'light';
-    
+
     this.systemPreference.set(systemTheme);
     this.themeSignal.set(systemTheme);
   }
@@ -66,11 +58,11 @@ export class ThemeService {
 
     // Escuchar cambios en la preferencia del sistema
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       const newSystemTheme: Theme = e.matches ? 'dark' : 'light';
       this.systemPreference.set(newSystemTheme);
-      
+
       // Solo cambiar si el usuario no ha guardado una preferencia manual
       if (!localStorage.getItem('theme')) {
         this.themeSignal.set(newSystemTheme);
@@ -80,7 +72,7 @@ export class ThemeService {
     // Agregar listener (modern API)
     if (darkModeMediaQuery.addEventListener) {
       darkModeMediaQuery.addEventListener('change', handleChange);
-    } 
+    }
     // Fallback para navegadores antiguos
     else if (darkModeMediaQuery.addListener) {
       darkModeMediaQuery.addListener(handleChange);
@@ -89,7 +81,7 @@ export class ThemeService {
 
   toggleTheme() {
     if (!isPlatformBrowser(this.platformId)) return;
-    
+
     const newTheme: Theme = this.themeSignal() === 'light' ? 'dark' : 'light';
     this.themeSignal.set(newTheme);
   }
@@ -101,7 +93,7 @@ export class ThemeService {
 
   resetToSystemPreference() {
     if (!isPlatformBrowser(this.platformId)) return;
-    
+
     // Eliminar preferencia guardada y usar la del sistema
     localStorage.removeItem('theme');
     this.themeSignal.set(this.systemPreference());
@@ -109,9 +101,9 @@ export class ThemeService {
 
   private applyTheme(theme: Theme) {
     if (!isPlatformBrowser(this.platformId)) return;
-    
+
     const htmlElement = document.documentElement;
-    
+
     if (theme === 'dark') {
       htmlElement.classList.add('dark');
       htmlElement.classList.remove('light');
