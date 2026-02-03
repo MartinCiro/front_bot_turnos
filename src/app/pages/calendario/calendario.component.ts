@@ -135,9 +135,14 @@ export class CalendarioComponent {
     }
 
     borderLegend = computed(() =>
-        this.isDarkMode() ? 'bg-slate-900/50' : 'border-zinc-200'
+        this.isDarkMode() ? 'bg-slate-900/50 border-slate-700' : 'bg-white border-slate-200'
     );
 
+    contentLegendNormal = computed(() =>
+        this.isDarkMode() ? 'bg-emerald-900/20' : 'bg-emerald-50'
+    );
+
+    
 
     // Días de la semana (lunes a domingo)
     diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];

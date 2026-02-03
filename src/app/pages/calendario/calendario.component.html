@@ -170,14 +170,14 @@
     </div>
 
     <!-- Legend -->
-    <div class="bg-white rounded-xl border border-slate-200 dark:border-slate-700 p-6">
+    <div class=" rounded-xl border p-6" [ngClass]="borderLegend()">
       <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
         <i-lucide [name]="icons.AlertCircle" class="w-5 h-5"></i-lucide>
         Leyenda
       </h3>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
+        <div class="flex items-center gap-3 p-3 rounded-lg" [ngClass]="contentLegendNormal()">
           <div class="w-4 h-4 rounded bg-emerald-500"></div>
           <div>
             <p class="font-medium">Turno Normal</p>
