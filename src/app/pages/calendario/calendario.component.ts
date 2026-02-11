@@ -139,7 +139,7 @@ export class CalendarioComponent {
     );
 
     contentLegendNormal = computed(() =>
-        this.isDarkMode() ? 'bg-emerald-900/20' : 'bg-emerald-50'
+        this.isDarkMode() ? 'bg-emerald-900/20 text-slate-400' : 'bg-emerald-50 text-slate-600'
     );
 
     
@@ -158,8 +158,28 @@ export class CalendarioComponent {
     mesAnio = computed(() => {
         const data = this.data();
         if (!data) return '';
+        const months = {
+        January: 0,
+        February: 1,
+        March: 2,
+        April: 3,
+        May: 4,
+        June: 5,
+        July: 6,
+        August: 7,
+        September: 8,
+        October: 9,
+        November: 10,
+        December: 11,
+        } as const;
+
+        const [rawMonth, rawYear] = data.periodo.mes.split(" ");
+
+        const monthName = rawMonth as keyof typeof months;
+        const year = Number(rawYear);
+
         try {
-            const mes = new Date(data.periodo.mes);
+            const mes = new Date(year, months[monthName]);
             return mes.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
                 .replace(/^\w/, c => c.toUpperCase());
         } catch {

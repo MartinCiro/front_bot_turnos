@@ -59,6 +59,14 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": [
+              "mrciro.com",
+              "www.mrciro.com",
+              "localhost"
+            ],
+            "host": "0.0.0.0"
+          },
           "configurations": {
             "production": {
               "buildTarget": "blog:build:production"
