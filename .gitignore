@@ -42,3 +42,7 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 data/*
+*.xlsx
+pasos
+*.json
+public
